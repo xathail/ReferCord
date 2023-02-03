@@ -8,6 +8,6 @@ This is a Discord bot written with pycord to track user referrals.
 > - [_] `/JoinChannel <Channel>` - This will allow you to choose a specific channel to send welcome messages in
 > - [_] `/JoinMessage <Message>` - This will allow you to have a specific join message
 > - [_] `/Help [Command]` - This will show all available commands **or** display information about a command
-> - [] Is Used Where Arguments Are Optional
-> - <> Is Used Where Arguments Are Required
+> [] Is Used Where Arguments Are Optional
+> <> Is Used Where Arguments Are Required
 
