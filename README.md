@@ -9,3 +9,6 @@ This is a Discord bot written with pycord to track user referrals.
 > - [x] `/quickreferralAdd <amount> <user>` - Adds an amount of money to the referrer of the mentioned user
 > - [x] `/referralamount [user]` - Responds with how much someone has referred
 
+## Issues
+> - On vanity URL join, mucks up referral assignment
+> - Code organisation
