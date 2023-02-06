@@ -2,6 +2,8 @@
 import discord
 from discord.ext import commands
 from collections import defaultdict
+from dotenv import load_dotenv
+load_dotenv()
 # Create Bot
 intents = discord.Intents.none()
 intents.members = True
@@ -53,28 +55,17 @@ def update_invites_file():
 @bot.event
 async def on_member_join(member):
     print("member joined")
-    guild = member.guild
-    invite = None
-    invite_list = await guild.invites()
-    most_recent = None
-    max_timestamp = 0
-    for inv in invite_list:
-        if inv.uses > 0 and inv.created_at.timestamp() > max_timestamp:
-            max_timestamp = inv.created_at.timestamp()
-            most_recent = inv
-    if most_recent:
-        for author_id, invite_data in bot.invites.items():
-            if invite_data['url'] == most_recent.url:
-                bot.invites[author_id]["uses"] += 1
-                bot.invites[author_id]["users"].append(member.id)
-                invited_by = guild.get_member(author_id)
-                invites_amount = invite_data["uses"]
+    guild_invites = await guild.invites()
+    for author_id, invite_datas in bot.invites.items():
+        for c, invite in enumerate(invite_datas):
+            g_invite = next((x for x in guild_invites if x.url == invite['url']), None)
+            if g_invite and g_invite.uses > invite['uses']:
+                bot.invites[author_id][c]["uses"] += 1
+                bot.invites[author_id][c]["users"].append(member.id)
+                update_invites_file()
                 break
-    else:
-        invited_by = None
-        invites_amount = None
-    update_bot.invites_file()
-    channel = bot.get_channel(1070649769707458590) # This Channel ID Can Be Changed To Any
+    
+    channel = bot.get_channel(os.getenv("WELCOME_CHANNEL")) 
     await channel.send(f"{member.mention} joined the server.")
 
 # Gets The Inviter Of A User If They Joined From A Bot Invite
@@ -166,4 +157,4 @@ def loadreferral():
 # Initialise Bot
 loadreferral()
 loadinvites()
-bot.run("TOKEN")
+bot.run(os.getenv("TOKEN"))
