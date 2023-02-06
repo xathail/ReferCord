@@ -45,11 +45,12 @@ def loadinvites():
         pass
     print("Loaded invites")
 
-# Update bot.Invites
+# Update Invites
 def update_invites_file():
     with open("invites.txt", "w") as f:
         for author_id, invite_data in bot.invites.items():
-            f.write(f"{author_id};{invite_data['url']};{invite_data['uses']};{';'.join(map(str, invite_data['users']))}1\n")
+            for invite in invite_data:
+                f.write(f"{author_id};{invite['url']};{invite['uses']};{';'.join(map(str, invite_data['users']))}1\n")
 
 # On Join
 @bot.event
