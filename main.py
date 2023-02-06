@@ -56,6 +56,7 @@ def update_invites_file():
 async def on_member_join(member):
     print("member joined")
     guild_invites = await guild.invites()
+    vanity = True
     for author_id, invite_datas in bot.invites.items():
         for c, invite in enumerate(invite_datas):
             g_invite = next((x for x in guild_invites if x.url == invite['url']), None)
@@ -63,10 +64,11 @@ async def on_member_join(member):
                 bot.invites[author_id][c]["uses"] += 1
                 bot.invites[author_id][c]["users"].append(member.id)
                 update_invites_file()
+                vanity = False
                 break
     
     channel = bot.get_channel(os.getenv("WELCOME_CHANNEL")) 
-    await channel.send(f"{member.mention} joined the server.")
+    await channel.send(f"{member.mention} joined the server{' (possibly by vanity)' if vanity else ''}.")
 
 # Gets The Inviter Of A User If They Joined From A Bot Invite
 @bot.command(description="Responds with the inviter of the mentioned user.")
