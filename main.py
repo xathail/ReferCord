@@ -7,7 +7,7 @@ load_dotenv()
 # Create Bot
 intents = discord.Intents.none()
 intents.members = True
-intents.bot.invites = True 
+intents.invites = True 
 bot = discord.Bot(intents=intents)
 
 # Setup List
